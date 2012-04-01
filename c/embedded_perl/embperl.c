@@ -1,10 +1,15 @@
 #include <EXTERN.h>
 #include <perl.h>
+#include <pthread.h>
 
-PerlInterpreter *my_perl;
+#define NUM_THREADS  3
+
+char * perl_scripts[NUM_THREADS] = { "perlscript_one.pl"   ,
+                                     "perlscript_two.pl"   ,
+                                     "perlscript_three.pl" };
 
 void
-perl_sub(char* str)
+perl_sub(PerlInterpreter *my_perl, char* str)
 {
   dSP;                                /* initialize stack pointer      */
   ENTER;                              /* everything created after here */
@@ -15,28 +20,47 @@ perl_sub(char* str)
   call_pv("perl_sub", G_SCALAR);      /* call the function             */
   SPAGAIN;                            /* refresh stack pointer         */
                                     /* pop the return value from stack */
-  printf ("original string '%s'\nreversed string '%s'\n", str, POPp);
+  printf ("original string '%s'\nprocessed string '%s'\n", str, POPp);
   PUTBACK;
   FREETMPS;                           /* free that return value        */
   LEAVE;                           /* ...and the XPUSHed "mortal" args.*/
 }
 
-int main (int argc, char **argv, char **env)
+void *
+create_perl_context(void *threadid) 
 {
-  if (argc < 2) {
-    fprintf(stderr, "you must specify at least one argument\n");
-    exit(0);
-  }
-  char *my_argv[] = { "", "perlscript.pl" };
-  PERL_SYS_INIT3(&argc,&argv,&env);
+  int tid;
+  tid = (int)threadid;
+  char *my_argv[] = { "", perl_scripts[tid] };
+  PerlInterpreter *my_perl;
   my_perl = perl_alloc();
   PERL_SET_CONTEXT(my_perl);
   perl_construct(my_perl);
   perl_parse(my_perl, NULL, 2, my_argv, (char **)NULL);
   PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
   perl_run(my_perl);
-  perl_sub(argv[1]);
+  perl_sub(my_perl, "hello world");
   perl_destruct(my_perl);
   perl_free(my_perl);
+}
+
+int main(int argc, char **argv, char **env)
+{
+  //if (argc < 2) {
+  //  fprintf(stderr, "you must specify at least one argument\n");
+  //  exit(0);
+  //}
+  pthread_t threads[NUM_THREADS];
+  PERL_SYS_INIT3(&argc,&argv,&env);
+  int t;
+  for (t=0; t<NUM_THREADS; t++) {
+    printf("In main: creating thread %d\n", t);
+    (void)pthread_create(&threads[t], NULL, create_perl_context, (void *)t);
+  }
+  for (t=0;t<NUM_THREADS;t++) {
+    (void)pthread_join(threads[t], NULL);
+    printf("joined thread %d\n", t);
+  }
+  pthread_exit(NULL);
   PERL_SYS_TERM();
 }

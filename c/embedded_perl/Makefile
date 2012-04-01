@@ -1,2 +1,2 @@
 embperl:
-	/usr/bin/gcc -o embperl embperl.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+	/usr/bin/gcc -Wall -o embperl embperl.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
