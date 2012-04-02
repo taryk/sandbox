@@ -31,16 +31,19 @@ void lua_func(lua_State *L, char *str)
   return result;
 }
 
-int main(int argc, char **argv)
+void *
+create_lua_context(void *threadid)
 {
-  int s=0;
+  int tid;
+  tid = (int)threadid;
   lua_State *L = lua_open();
-
-  // load the libs (new in lua 5.1)
+  
+  // load the libs
 #ifdef LUA51
+  // lua 5.1
   luaL_openlibs(L);
 #else
-  // lua 5.0:
+  // lua 5.0
   luaopen_base(L);             /* opens the basic library */
   luaopen_table(L);            /* opens the table library */
   luaopen_io(L);               /* opens the I/O library */
@@ -56,5 +59,20 @@ int main(int argc, char **argv)
   // call the `lua_func`
   lua_func(L,"hello world");
   lua_close(L);
+}
+
+int main(int argc, char **argv)
+{
+  pthread_t threads[NUM_THREADS];
+  int t;
+  for (t=0; t<NUM_THREADS; t++) {
+    printf("In main: creating thread %d\n", t);
+    (void)pthread_create(&threads[t], NULL, create_lua_context, (void *)t);
+  }
+  for (t=0;t<NUM_THREADS;t++) {
+    (void)pthread_join(threads[t], NULL);
+    printf("joined thread %d\n", t);
+  }
+  pthread_exit(NULL);
   return 0;
 }

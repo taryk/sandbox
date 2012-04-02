@@ -10,10 +10,10 @@ LIBS51 = `pkg-config --libs --cflags lua5.1`
 sources = emblua.c
 
 lua51:
-	gcc -Wall -g emblua.c -o emblua -DLUA51 $(LIBS51)
+	gcc -Wall -g emblua.c -o emblua -DLUA51 $(LIBS51) -lpthread
 
 lua50:
-	gcc -Wall -g emblua.c -o emblua -DLUA50 $(LIBS50)
+	gcc -Wall -g emblua.c -o emblua -DLUA50 $(LIBS50) -lpthread
 
 all:	emblua
 
