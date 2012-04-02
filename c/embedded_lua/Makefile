@@ -1,5 +1,6 @@
 .PHONY = clean
 
+# lua5.0: lua-config --include --libs
 LIBS = `pkg-config --libs --cflags lua5.1`
 
 sources = emblua.c

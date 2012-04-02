@@ -1,5 +1,3 @@
-function lua_func()
+function lua_func(str)
    return "some text"
 end
-
-print(lua_func())
