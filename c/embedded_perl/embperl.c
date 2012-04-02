@@ -2,11 +2,24 @@
 #include <perl.h>
 #include <pthread.h>
 
-#define NUM_THREADS  3
+#define NUM_THREADS  4
 
 char * perl_scripts[NUM_THREADS] = { "perlscript_one.pl"   ,
                                      "perlscript_two.pl"   ,
-                                     "perlscript_three.pl" };
+                                     "perlscript_three.pl" ,
+                                     "perlscript_four.pl"  };
+
+static void xs_init (pTHX);
+ 
+EXTERN_C void boot_DynaLoader (pTHX_ CV* cv);
+ 
+EXTERN_C void
+xs_init(pTHX)
+{
+  char *file = __FILE__;
+  /* DynaLoader is a special case */
+  newXS("DynaLoader::boot_DynaLoader", boot_DynaLoader, file);
+}
 
 void
 perl_sub(PerlInterpreter *my_perl, char* str)
@@ -36,7 +49,7 @@ create_perl_context(void *threadid)
   my_perl = perl_alloc();
   PERL_SET_CONTEXT(my_perl);
   perl_construct(my_perl);
-  perl_parse(my_perl, NULL, 2, my_argv, (char **)NULL);
+  perl_parse(my_perl, xs_init, 2, my_argv, (char **)NULL);
   PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
   perl_run(my_perl);
   perl_sub(my_perl, "hello world");
