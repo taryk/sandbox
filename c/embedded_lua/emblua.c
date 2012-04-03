@@ -7,9 +7,13 @@
 #include <pthread.h> 
 
 #define NUM_THREADS 3
-#define LUA_SCRIPT "luascript.lua"
 
-void lua_func(lua_State *L, char *str)
+char * lua_scripts[NUM_THREADS] = { "luascript_one.lua"   ,
+                                    "luascript_two.lua"   ,
+                                    "luascript_three.lua" };
+
+
+void lua_func(lua_State *L, unsigned int tid, char *str)
 {
   char *result;
     
@@ -34,8 +38,8 @@ void lua_func(lua_State *L, char *str)
 void *
 create_lua_context(void *threadid)
 {
-  int tid;
-  tid = (int)threadid;
+  unsigned int tid;
+  tid = (unsigned int)threadid;
   lua_State *L = lua_open();
   
   // load the libs
@@ -52,19 +56,19 @@ create_lua_context(void *threadid)
 #endif
 
   // run a Lua script
-  if (luaL_loadfile(L, LUA_SCRIPT) || lua_pcall(L, 0, 0, 0))
+  if (luaL_loadfile(L, lua_scripts[tid]) || lua_pcall(L, 0, 0, 0))
     error(L, "cannot run the lua script: %s",
              lua_tostring(L, -1));
 
   // call the `lua_func`
-  lua_func(L,"hello world");
+  lua_func(L, tid, "hello world");
   lua_close(L);
 }
 
 int main(int argc, char **argv)
 {
   pthread_t threads[NUM_THREADS];
-  int t;
+  unsigned int t;
   for (t=0; t<NUM_THREADS; t++) {
     printf("In main: creating thread %d\n", t);
     (void)pthread_create(&threads[t], NULL, create_lua_context, (void *)t);
