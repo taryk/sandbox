@@ -11,9 +11,11 @@ sources = emblua.c
 
 lua51:
 	gcc -Wall -g emblua.c -o emblua -DLUA51 $(LIBS51) -lpthread
+	gcc -Wall -g emblua_single_context.c -o emblua_single_context -DLUA51 $(LIBS51) -lpthread
 
 lua50:
 	gcc -Wall -g emblua.c -o emblua -DLUA50 $(LIBS50) -lpthread
+	gcc -Wall -g emblua_single_context.c -o emblua_single_context -DLUA50 $(LIBS50) -lpthread
 
 all:	emblua
 
