@@ -7,16 +7,27 @@
 #include <pthread.h> 
 
 #define NUM_THREADS 3
+
 #define LUA_SCRIPT "luascript.lua"
 
+char *lua_funcs[NUM_THREADS] = { "lua_func_one"   ,
+                                 "lua_func_two"   ,
+                                 "lua_func_three" };
 pthread_mutex_t mutex_lua;
 
-void lua_func(lua_State *L, char *str)
+typedef struct _thread_context_s {
+  lua_State *L;
+  unsigned int tid;
+} thread_context_s;
+
+void lua_func(lua_State *L, unsigned int tid, char *str)
 {
   char *result;
-    
+  
+  printf("thread id: %d\n", tid);
+
   /* push functions and arguments */
-  lua_getglobal(L, "lua_func");  /* function to be called */
+  lua_getglobal(L, lua_funcs[tid]);  /* function to be called */
   lua_pushstring(L, str);        /* push 1st argument */
 
   /* do the call (1 arguments, 1 result) */
@@ -34,11 +45,12 @@ void lua_func(lua_State *L, char *str)
 }
 
 void *
-thread_context(void *L)
+thread_context(void *_tx)
 {
+  thread_context_s *tx = (thread_context_s*)_tx;
   pthread_mutex_lock(&mutex_lua);
   // call the `lua_func`
-  lua_func((lua_State*)L,"hello world");
+  lua_func(tx->L, tx->tid, "hello world");
   pthread_mutex_unlock(&mutex_lua);
 }
 
@@ -66,11 +78,13 @@ int main(int argc, char **argv)
     error(L, "cannot run the lua script: %s",
              lua_tostring(L, -1));
 
-  
-  int t;
+  unsigned int t;
   for (t=0; t<NUM_THREADS; t++) {
     printf("In main: creating thread %d\n", t);
-    (void)pthread_create(&threads[t], NULL, thread_context, (void *)L);
+    thread_context_s *tx;
+    tx->L   = L;
+    tx->tid = t;
+    (void)pthread_create(&threads[t], NULL, thread_context, (void *)tx);
   }
   for (t=0;t<NUM_THREADS;t++) {
     (void)pthread_join(threads[t], NULL);
