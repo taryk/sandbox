@@ -1,0 +1,10 @@
+Polygon
+=======
+
+This repository is the collection of source codes grouped by programming languages by which I have examined some libraries/frameworks/etc.
+These aren't the real projects, just ignore them.
+
+C
+embedded_lua  - embedding lua into the multithreaded c program
+embedded_perl - embedding perl into the multithreaded c program
+inotify_test  - a simple usage example of inotify for fs change tracking
