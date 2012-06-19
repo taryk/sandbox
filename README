@@ -9,3 +9,6 @@ embedded_lua         - embedding multiple lua instances in a multithreaded c pro
 embedded_perl        - embedding perl instances in a multithreaded c program
 inotify_test         - a simple usage example of inotify for fs change tracking
 zeromq_server_client - zeromq server and client using czmq
+
+CLISP
+roman_numbers        - convert integer to Roman numeral
