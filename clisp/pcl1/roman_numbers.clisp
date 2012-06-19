@@ -15,13 +15,14 @@
 (defun to-roman (number &optional roman)
   "Converts integer to Roman numeral"
   (dolist (x roman-numbers-map)
-    (if (>= number (cadr x))
+    (cond
+     ((>= number (cadr x))
         (progn 
           (setq roman (concatenate 'string roman (car x)))
           (setq number (- number (cadr x)))
           (return (to-roman number roman))))
-    (if (= number 0)
-        (return roman))))
+     ((= number 0)
+        (return roman)))))
 
 (defun prompt-for-number ()
   (format *query-io* "number: ")
