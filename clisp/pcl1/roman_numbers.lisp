@@ -19,7 +19,7 @@
      ((>= number (cadr x))
         (progn 
           (setq roman (concatenate 'string roman (car x)))
-          (setq number (- number (cadr x)))
+          (decf number (cadr x))
           (return (to-roman number roman))))
      ((= number 0)
         (return roman)))))
