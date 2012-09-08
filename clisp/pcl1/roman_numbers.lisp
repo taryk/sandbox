@@ -17,9 +17,8 @@
   (dolist (x *roman-numbers-map*)
     (cond
      ((>= number (cadr x))
-        (setq roman (concatenate 'string roman (car x)))
-        (decf number (cadr x))
-        (return (to-roman number roman)))
+        (return (to-roman (- number (cadr x)) 
+                          (concatenate 'string roman (car x)))))
      ((= number 0)
         (return roman)))))
 
