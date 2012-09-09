@@ -30,10 +30,15 @@
                  roman)))
       (if (<= number 0) roman))))
 
+(defn prompt-read
+  [str]
+  (print str)
+  (flush)
+  (Integer/parseInt (read-line)))
+  
 (defn -main
   "I don't do a whole lot."
   [& args]
-  (print "number: ")
-  (flush)
-  (println
-   (to-roman (Integer/parseInt (read-line)))))
+  (-> (prompt-read "number: ")
+      to-roman
+      println))
