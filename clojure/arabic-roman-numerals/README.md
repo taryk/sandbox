@@ -1,15 +1,27 @@
 # arabic-roman-numerals
 
-I'm an app. Or maybe I'm a library? I haven't decided yet. 
-
-The choice is up to you!
+The program allows you to convert an integer number into roman numerals.
 
 ## Usage
 
-FIXME
+Just run
+```
+$ lein run
+$ number: 1999 
+$ MCMXCIX
+```
+
+To build a standalone jar and run it
+```
+$ lein uberjar
+...
+$ java -jar target/arabic-roman-numerals-0.1.0-SNAPSHOT-standalone.jar
+$ number: 3521
+$ MMMDXXI
+```
 
 ## License
 
-Copyright © 2012 FIXME
+Copyright © 2012 Taras Yagniuk <mrtaryk@gmail.com>
 
 Distributed under the Eclipse Public License, the same as Clojure.
