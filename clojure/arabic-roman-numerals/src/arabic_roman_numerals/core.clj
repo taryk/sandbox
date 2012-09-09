@@ -16,6 +16,7 @@
                          ("I" 1)))
 
 (defn to-roman [number]
+  "Convert integer to Roman numeral"
   (loop [i 0
          number number
          roman nil]
@@ -30,14 +31,13 @@
                  roman)))
       (if (<= number 0) roman))))
 
-(defn prompt-read
-  [str]
+(defn prompt-read [str]
+  "Prompt for Integer"
   (print str)
   (flush)
   (Integer/parseInt (read-line)))
   
 (defn -main
-  "I don't do a whole lot."
   [& args]
   (-> (prompt-read "number: ")
       to-roman
