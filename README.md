@@ -36,3 +36,8 @@ This is my sandbox where I play with different programming languages and their l
 - [arabic-roman-numerals](https://github.com/taryk/sandbox/tree/master/clojure/arabic-roman-numerals)
 
   Convert an integer number into Roman numerals.
+
+- [luhn-checksum](https://github.com/taryk/sandbox/tree/master/clojure/luhn-checksum)
+
+  Checks the validity of an input card number using the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
+
