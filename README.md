@@ -26,18 +26,25 @@ This is my sandbox where I play with different programming languages and their l
 
   An example of implementation of a private method.
 
+  [source](https://github.com/taryk/sandbox/blob/master/perl/private_method/private_method.pl)
+
 ## Common Lisp ##
 
 - [roman_numbers](https://github.com/taryk/sandbox/tree/master/clisp/pcl1)
 
   Convert an integer number into Roman numerals.
 
+  [source](https://github.com/taryk/sandbox/blob/master/clisp/pcl1/roman_numbers.lisp)
+
 ## Clojure ##
 - [arabic-roman-numerals](https://github.com/taryk/sandbox/tree/master/clojure/arabic-roman-numerals)
 
   Convert an integer number into Roman numerals.
 
+  [source](https://github.com/taryk/sandbox/blob/master/clojure/arabic-roman-numerals/src/arabic_roman_numerals/core.clj)
+
 - [luhn-checksum](https://github.com/taryk/sandbox/tree/master/clojure/luhn-checksum)
 
   Checks the validity of an input card number using the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
 
+  [source](https://github.com/taryk/sandbox/blob/master/clojure/luhn-checksum/src/luhn_checksum/core.clj)
