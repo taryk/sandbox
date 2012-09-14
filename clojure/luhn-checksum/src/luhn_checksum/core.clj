@@ -2,12 +2,12 @@
   (:gen-class :main true))
 
 (defn get-luhn-checksum
-  [card-number]
-  (let [nums (vec card-number)
-        [even-nums odd-nums]
-        (vals (group-by #(even? (first %))
-                        (map #(list %1 (Integer/parseInt (str %2))) (iterate inc 0) (vec nums))))]
-    
+  [digits]
+  (let [[even-nums odd-nums]
+        (->> digits
+             (map #(list %1 %2) (iterate inc 0))
+             (group-by #(even? (first %)))
+             vals)]
     (+ (apply + (map #(let [x (* (nth % 1) 2)] (if (> x 9) (- x 9) x)) even-nums))
        (apply + (map #(nth % 1) odd-nums)))))
 
