@@ -23,8 +23,10 @@
 (defn -main
   [& args]
   (println "Card number is"
-   (if (-> (read-number "Card number: ")
-           get-luhn-checksum
-           valid?)
-     "OK"
-     "wrong")))
+           (if (->> (read-number "Card number: ")
+                    seq
+                    (map #(read-string (str %)))
+                    get-luhn-checksum
+                    valid?)
+             "OK"
+             "wrong")))
