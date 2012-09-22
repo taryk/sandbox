@@ -72,6 +72,8 @@ package Fool::Deck {
 package Fool::Player {
   use common::sense;
 
+  use List::Util qw[ reduce sum ];
+
   use Data::Printer;
 
   use constant {
@@ -84,19 +86,19 @@ package Fool::Player {
   sub new {
     my $class = shift;
     my $self  = bless { @_ } => $class;
-    $self->{cards} = [];
+    $self->{cards} = {};
     $self
   }
 
   sub take_card {
     my $self = shift;
     my $card = shift;
-    push @{ $self->{cards} } => $card;
+    push @{ $self->{cards}{$card->[$card->[0]]} } => $card;
   }
 
   sub need_card {
     my $self = shift;
-    scalar @{ $self->{cards} } < MINCARDS
+    MINCARDS > sum map { scalar @$_ } values %{ $self->{cards} };
   }
 
   # sub sort_cards {
@@ -110,11 +112,13 @@ package Fool::Player {
 
   sub sort_cards {
     my $self = shift;
-    $self->{cards} = [ sort {
-      $a->[0] cmp $b->[0]
-      ||
-      $card_order_map{$a->[1]} <=> $card_order_map{$b->[1]}
-    } @{ $self->{cards} } ];
+    my $res;
+    for my $card_suit (keys %{ $self->{cards} } ) {
+      $self->{cards}{$card_suit} = [ sort {
+        $card_order_map{$a->[1]} <=> $card_order_map{$b->[1]}
+      } @{ $self->{cards}{$card_suit} } ];
+    }
+    $self
   }
 
   sub empty {
@@ -124,24 +128,40 @@ package Fool::Player {
 
   sub get_lowest_card {
     my $self = shift;
-    # @TODO implement
-    $self->{cards}[0]
+    reduce { $card_order_map{$a->[1]} < $card_order_map{$b->[1]} ? $a : $b }
+    map {
+      reduce { $card_order_map{$a->[1]} < $card_order_map{$b->[1]} ? $a : $b } @$_
+    }
+    values %{ $self->{cards} }
   }
 
   sub get_highest_card {
     my $self = shift;
-    # @TODO implement
+    reduce { $card_order_map{$a->[1]} > $card_order_map{$b->[1]} ? $a : $b }
+    map {
+      reduce { $card_order_map{$a->[1]} > $card_order_map{$b->[1]} ? $a : $b } @$_
+    }
+    values %{ $self->{cards} }
+  }
+
+  sub get_cards_list {
+    my $self = shift;
+    my @res = [];
+    for my $cards_seq ( values @{ $self->{cards} } ) {
+      push @res => @$cards_seq
+    }
+    @res
   }
 
   sub attack {
     my $self = shift;
     my $desk = shift;
     my $throwed_card;
-    unless ($desk->is_empty) {
-      $throwed_card = $self->throw_in($desk)
+    if ($desk->is_empty) {
+      $throwed_card = $self->get_lowest_card();
     }
     else {
-      $throwed_card = $self->get_lowest_card();
+      $throwed_card = $self->throw_in($desk)
     }
     $desk->push_attack( $self->{id} => $throwed_card )
       if $throwed_card;
@@ -158,7 +178,7 @@ package Fool::Player {
     my $desk = shift;
     for my $slot ( @{ $desk->{desk} } ) {
       for my $pslot (@$slot) {
-        for my $mycard ( @{ $self->{cards} } ) {
+        for my $mycard ( $self->get_cards_list ) {
           # @TODO check for the trump suit
           return $mycard if $mycard->[1] eq $pslot->[1][1];
         }
@@ -292,6 +312,7 @@ package Fool {
   }
 
   sub finish {
+    my $self = shift;
     1 == scalar grep { ! $_->empty } @{ $self->{player} };
   }
 
