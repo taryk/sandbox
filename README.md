@@ -28,6 +28,14 @@ This is my sandbox where I play with different programming languages and their l
 
   [source](https://github.com/taryk/sandbox/blob/master/perl/private_method/private_method.pl)
 
+## Python ##
+
+- [luhn-checksum](https://github.com/taryk/sandbox/tree/master/python/luhn-checksum)
+
+  Checks the validity of an input card number using the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
+
+  [source](https://github.com/taryk/sandbox/blob/master/python/luhn-checksum/luhn-checksum.py)
+
 ## Common Lisp ##
 
 - [roman_numbers](https://github.com/taryk/sandbox/tree/master/clisp/pcl1)
