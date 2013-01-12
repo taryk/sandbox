@@ -43,6 +43,8 @@ This is my sandbox where I play with different programming languages and their l
 - [roman_numbers](https://github.com/taryk/sandbox/tree/master/clisp/pcl1) [source](https://github.com/taryk/sandbox/blob/master/clisp/pcl1/roman_numbers.lisp)
 
   Convert an integer number into Roman numerals.
+  
+- [luhn-checksum](https://github.com/taryk/sandbox/tree/master/clisp/luhn-checksum) [source](https://github.com/taryk/sandbox/blob/master/clisp/luhn-checksum/luhn-checksum.lisp)
 
 ## Clojure ##
 - [arabic-roman-numerals](https://github.com/taryk/sandbox/tree/master/clojure/arabic-roman-numerals) [source](https://github.com/taryk/sandbox/blob/master/clojure/arabic-roman-numerals/src/arabic_roman_numerals/core.clj)
