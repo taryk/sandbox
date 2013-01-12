@@ -4,7 +4,7 @@ The program checks the validity of an input card number using the [Luhn algorith
 
 Just run
 
-    $ sbcl --script luhn-checksum.clisp
+    $ sbcl --script luhn-checksum.lisp
     Card number: 4561261212345467
     Card number is: OK
 
