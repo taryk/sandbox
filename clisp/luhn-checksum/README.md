@@ -2,11 +2,17 @@
 
 The program checks the validity of an input card number using the [Luhn algorithm](http://en.wikipedia.org/wiki/Luhn_algorithm)
 
-Just run
+Just run ( sbcl )
 
     $ sbcl --script luhn-checksum.lisp
     Card number: 4561261212345467
     Card number is: OK
+
+or using clisp
+
+    $ clisp luhn-checksum.lisp
+    Card number: 5610591081018250
+    Card number is: OK    
 
 ## License
 
