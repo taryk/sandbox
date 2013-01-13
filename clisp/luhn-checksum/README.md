@@ -14,6 +14,8 @@ or using clisp
     Card number: 5610591081018250
     Card number is: OK    
 
+You can use [LUHN-10 Error Detection Tool](http://www.ee.unb.ca/cgi-bin/tervo/luhn.pl) to check the card number online.
+
 ## License
 
 Copyright © 2013 Taras Yagniuk <mrtaryk@gmail.com>

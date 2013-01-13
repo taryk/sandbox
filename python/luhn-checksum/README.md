@@ -8,6 +8,8 @@ Just run
     Card number: 4561261212345467
     Card number is OK
 
+You can use [LUHN-10 Error Detection Tool](http://www.ee.unb.ca/cgi-bin/tervo/luhn.pl) to check the card number online.
+
 ## License
 
 Copyright © 2012 Taras Yagniuk <mrtaryk@gmail.com>
