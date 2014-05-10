@@ -1,36 +1,18 @@
-# timezones
+# Timezones
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
+Returns a list of timezones where passed value is current hour.
 
 ## Usage
 
-FIXME: explanation
+    $ lein run <hour>
 
-    $ java -jar timezones-0.1.0-standalone.jar [args]
+    or
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+    $ java -jar timezones-0.1.0-SNAPSHOT-standalone.jar <hour>
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Taras Iagniuk
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

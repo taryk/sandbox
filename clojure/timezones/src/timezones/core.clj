@@ -5,6 +5,7 @@
   (:use clojure.pprint))
 
 (defn timezones
+  "Returns a list of all timezones with hour/minute offset"
   []
   (for [timezone-id (TimeZone/getAvailableIDs)]
     (let [timezone (TimeZone/getTimeZone timezone-id)
@@ -17,6 +18,7 @@
                             (.toMinutes (TimeUnit/HOURS) hours-offset))}})))
 
 (defn get-timezones
+  "Filter timezones by a passed current hour"
   [hour]
   (filter #(= hour
               (.get (Calendar/getInstance (TimeZone/getTimeZone (:id %)))
