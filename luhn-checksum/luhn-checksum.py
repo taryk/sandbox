@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+#
+# Checks the validity of an input card number using the Luhn algorithm.
+#
+# Examples:
+# $ python luhn-checksum.py
+# Card number: 4561261212345467
+# Card number is OK
 
 def split_d(strn):
     return list(map(int,strn))

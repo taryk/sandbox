@@ -1,3 +1,17 @@
+;; Checks the validity of an input card number using the Luhn algorithm.
+;;
+;; Examples:
+;;
+;; $ sbcl --script luhn-checksum.lisp
+;; Card number: 4561261212345467
+;; Card number is: OK
+;;
+;; or
+;;
+;; $ clisp luhn-checksum.lisp
+;; Card number: 5610591081018250
+;; Card number is: OK
+
 (defun get-luhn-checksum (number-str)
   (let ((n (if (= (rem (length number-str) 2) 0) -1 0)))
     (apply #'+
